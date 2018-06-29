@@ -20,7 +20,7 @@
     <button mat-raised-button color="primary" [matMenuTriggerFor]="menu">Manage Recipe <span class="caret"></span></button>
     <mat-menu #menu="matMenu">
       <button mat-menu-item (click) = "onAddShoppingList()">To Shopping List</button>
-      <button mat-menu-item>Edit Recipe</button>
+      <button mat-menu-item (click)="onEditRecipe()">Edit Recipe</button>
       <button mat-menu-item>Delete Recipe</button>
     </mat-menu>
     <!--<div class="btn-group">-->
