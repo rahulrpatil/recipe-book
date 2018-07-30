@@ -2,16 +2,18 @@ import {Injectable} from '@angular/core';
 import {Recipe} from './recipe.model';
 import {Ingredient} from '../shared/ingredient.model';
 import {ShoppingListService} from '../shoping-list/shopping-list.service';
+import {Subject} from 'rxjs';
 @Injectable()
 export class RecipeService {
 
+  recipesChanged = new Subject<Recipe[]>();
   private recipes: Recipe[] = [
     new Recipe(
       'Mysore masala dosa recipe',
       'A crisp dosa lathered with a fiery red chutney and stuffed with some mashed potato filling.',
       'http://www.ndtv.com/cooks/images/mysore.masala.dosa.1%20%281%29.jpg',
       [
-        new Ingredient('urad dal (split black lentils)', .5),
+        new Ingredient('urad dal (split black lentils)', 4),
         new Ingredient('fenugreek (methi) seeds', 1),
         new Ingredient('raw rice (chawal)', 1),
         new Ingredient('hick beaten rice (poha)', 2)
@@ -39,5 +41,20 @@ export class RecipeService {
 
   addIngredientsToShoppingList(ingredients: Ingredient[]) {
     this.slService.addIngredients(ingredients);
+  }
+
+  addRecipe(recipe: Recipe) {
+    this.recipes.push(recipe);
+    this.recipesChanged.next(this.recipes.slice());
+  }
+
+  updateRecipe(index: number, newRecipe: Recipe) {
+    this.recipes[index] = newRecipe;
+    this.recipesChanged.next(this.recipes.slice());
+  }
+
+  deleteRecipe(index: number) {
+    this.recipes.splice(index, 1);
+    this.recipesChanged.next(this.recipes.slice());
   }
 }
